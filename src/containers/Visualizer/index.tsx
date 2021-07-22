@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Board from '../../components/Board';
 import { SquareType } from '../../types/SquareTypes';
 import { Grid, Node } from '../../types/VisualizerTypes';
@@ -7,7 +7,9 @@ import {
   initializeDisplay,
   initializeGrid,
   updateDisplay,
+  visualize,
 } from '../../utils/visualizerUtils';
+import config from '../../utils/config';
 import {
   getNodesInShortestPathOrder,
   dijkstra,
@@ -22,6 +24,7 @@ export default function Visualizer({
 }): JSX.Element {
   const [display, setDisplay] = useState(initializeDisplay(rows, cols));
 
+  /* Force updates the board CSS with internally tracked data */
   const renderDisplay = (): void => {
     for (let c = 0; c < display[0].length; c += 1) {
       for (let r = 0; r < display.length; r += 1) {
@@ -30,12 +33,24 @@ export default function Visualizer({
     }
   };
 
+  /* Reset display and board CSS to default state */
   const clearDisplay = (): void => {
-    setDisplay(initializeDisplay(rows, cols));
+    for (let r = 0; r < rows; r += 1) {
+      for (let c = 0; c < cols; c += 1) {
+        if (c === config.source.col && r === config.source.row) {
+          setDisplay(updateDisplay(display, r, c, SquareType.Source));
+        } else if (c === config.target.col && r === config.target.row) {
+          setDisplay(updateDisplay(display, r, c, SquareType.Target));
+        } else {
+          setDisplay(updateDisplay(display, r, c, SquareType.Empty));
+        }
+      }
+    }
     renderDisplay();
   };
 
-  const clearAnimation = (): void => {
+  /* Clears path and visited nodes */
+  const clearVisualization = (): void => {
     for (let c = 0; c < display[0].length; c += 1) {
       for (let r = 0; r < display.length; r += 1) {
         if (
@@ -43,61 +58,28 @@ export default function Visualizer({
           display[r][c] !== SquareType.Target &&
           display[r][c] !== SquareType.Wall
         ) {
-          display[r][c] = SquareType.Empty;
+          setDisplay(updateDisplay(display, r, c, SquareType.Empty));
         }
       }
     }
     renderDisplay();
   };
 
-  const animatePath = (nodes: Node[], timeout: number): void => {
-    for (let i = 1; i < nodes.length - 1; i += 1) {
-      const n = nodes[i];
-
-      setTimeout(() => {
-        setSquareType(n.row, n.col, SquareType.Path);
-      }, timeout * i);
-    }
-  };
-
-  const animateVisited = (
-    visited: Node[],
-    path: Node[],
-    timeout: number
-  ): void => {
-    for (let i = 1; i < visited.length - 1; i += 1) {
-      const n = visited[i];
-      setTimeout(() => {
-        setSquareType(n.row, n.col, SquareType.Visited);
-      }, timeout * i);
-
-      setDisplay(updateDisplay(display, n.row, n.col, SquareType.Visited));
-    }
-
-    setTimeout(() => {
-      animatePath(path, timeout * 3);
-    }, timeout * (visited.length - 1));
-  };
-
-  const visualize = (): void => {
+  const animateDijkstra = (): void => {
+    clearVisualization();
     const grid: Grid = initializeGrid(display);
     const visited: Node[] = dijkstra(grid);
     const path: Node[] = getNodesInShortestPathOrder(grid.target);
-
-    animateVisited(visited, path, 5);
+    visualize(visited, path);
   };
-
-  // useEffect(() => {
-  //   renderDisplay();
-  // }, [display]);
 
   return (
     <>
-      <button type="button" onClick={() => visualize()}>
+      <button type="button" onClick={() => animateDijkstra()}>
         Visualize
       </button>
-      <button type="button" onClick={() => clearAnimation()}>
-        Clear Animation
+      <button type="button" onClick={() => clearVisualization()}>
+        Clear Visualization
       </button>
       <button type="button" onClick={() => clearDisplay()}>
         Clear Board

@@ -2,10 +2,16 @@
 import React, { useState } from 'react';
 import './Board.css';
 import { SquareInfo, SquareType } from '../../types/SquareTypes';
-import { Display, Setter } from '../../types/VisualizerTypes';
 import { initializeSquares, setSquareType } from '../../utils/squareUtils';
+import { Display, Setter } from '../../types/VisualizerTypes';
 import { updateDisplay } from '../../utils/visualizerUtils';
 
+/*
+ * Displays a grid of Square components and handles mouse interactions. Takes in
+ * a `display` variable and `setDisplay` function which are used to track board
+ * state internally. Changes to the appearance of the squares are handled via
+ * changes to each square's CSS class.
+ */
 export default function Board({
   display,
   setDisplay,
@@ -34,7 +40,7 @@ export default function Board({
     setMousePressed(true);
     setSelectedSquare({ row, col, type });
 
-    // Draw wall or empty nodes on click
+    /* Draw wall or empty nodes on click */
     if (type === SquareType.Empty) {
       handleChange({ row, col, type: SquareType.Wall });
     } else if (type === SquareType.Wall) {
@@ -51,7 +57,7 @@ export default function Board({
     if (!mousePressed) return;
     const type = display[row][col];
 
-    // Draw wall or empty nodes on drag
+    /* Draw wall or empty nodes on drag */
     if (type === SquareType.Empty && selectedSquare.type === SquareType.Empty) {
       handleChange({ row, col, type: SquareType.Wall });
     } else if (
@@ -62,10 +68,12 @@ export default function Board({
     }
   };
 
+  /* Called when the mouse cursor leaves the board */
   const handleBoardLeave = (): void => {
     setMousePressed(false);
   };
 
+  /* Initializes board with empty squares and source/target */
   const squares = initializeSquares(
     rows,
     cols,

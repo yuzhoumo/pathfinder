@@ -3,6 +3,11 @@ import './Square.css';
 import { MouseHandler, SquareType } from '../../types/SquareTypes';
 import { getSquareId } from '../../utils/squareUtils';
 
+/*
+ * Displays a square on the board and execute callback functions on each mouse
+ * event. Appearance of each square can be changed after initialization only via
+ * updating its CSS class using calls to getElementById.
+ */
 export default function Square({
   row,
   col,
@@ -20,7 +25,7 @@ export default function Square({
 }): JSX.Element {
   return (
     <div
-      aria-label="grid-item"
+      aria-label="square"
       id={getSquareId(row, col)}
       role="button"
       tabIndex={0}
