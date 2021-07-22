@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { message } from 'antd';
 import Board from '../../components/Board';
+import Controls from '../../components/Controls';
 import { SquareType } from '../../types/SquareTypes';
-import { Grid, Node } from '../../types/VisualizerTypes';
 import { setSquareType } from '../../utils/squareUtils';
 import {
   initializeDisplay,
@@ -9,11 +10,8 @@ import {
   updateDisplay,
   visualize,
 } from '../../utils/visualizerUtils';
+import { Algorithm } from '../../types/VisualizerTypes';
 import config from '../../utils/config';
-import {
-  getNodesInShortestPathOrder,
-  dijkstra,
-} from '../../algorithms/djikstra';
 
 export default function Visualizer({
   rows,
@@ -65,25 +63,24 @@ export default function Visualizer({
     renderDisplay();
   };
 
-  const animateDijkstra = (): void => {
+  /* Runs and animates a given pathfinding algorithm */
+  const runAlgorithm = (algorithm: Algorithm): void => {
     clearVisualization();
-    const grid: Grid = initializeGrid(display);
-    const visited: Node[] = dijkstra(grid);
-    const path: Node[] = getNodesInShortestPathOrder(grid.target);
+    const [visited, path] = algorithm(initializeGrid(display));
+    if (path.length === 0) {
+      message.warning('The target is not reachable!');
+      return;
+    }
     visualize(visited, path);
   };
 
   return (
     <>
-      <button type="button" onClick={() => animateDijkstra()}>
-        Visualize
-      </button>
-      <button type="button" onClick={() => clearVisualization()}>
-        Clear Visualization
-      </button>
-      <button type="button" onClick={() => clearDisplay()}>
-        Clear Board
-      </button>
+      <Controls
+        runAlgorithm={runAlgorithm}
+        clearBoard={clearDisplay}
+        clearVisualization={clearVisualization}
+      />
       <Board display={display} setDisplay={setDisplay} />
     </>
   );

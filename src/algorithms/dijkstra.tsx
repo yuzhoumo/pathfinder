@@ -34,7 +34,7 @@ function getNodes(nodes: Node[][]): Node[] {
   return flat;
 }
 
-export function getNodesInShortestPathOrder(target: Node): Node[] {
+function getNodesInShortestPathOrder(target: Node): Node[] {
   const nodesInShortestPathOrder: Node[] = [];
   let currentNode: Node = target;
   while (currentNode !== null) {
@@ -48,7 +48,7 @@ export function getNodesInShortestPathOrder(target: Node): Node[] {
   return nodesInShortestPathOrder;
 }
 
-export function dijkstra(grid: Grid): Node[] {
+export default function dijkstra(grid: Grid): [Node[], Node[]] {
   grid.source.dist = 0;
   const visitedNodesInOrder: Node[] = [];
   const unvisitedNodes: Node[] = getNodes(grid.nodes);
@@ -58,13 +58,13 @@ export function dijkstra(grid: Grid): Node[] {
     unvisitedNodes.shift();
 
     if (closestNode.type !== SquareType.Wall) {
-      if (closestNode.dist === Infinity) return visitedNodesInOrder;
+      if (closestNode.dist === Infinity) return [visitedNodesInOrder, []];
       closestNode.type = SquareType.Visited;
       visitedNodesInOrder.push(closestNode);
-      if (closestNode === grid.target) return visitedNodesInOrder;
+      if (closestNode === grid.target) break;
       updateUnvisitedNeighbors(closestNode, grid.nodes);
     }
   }
 
-  return visitedNodesInOrder;
+  return [visitedNodesInOrder, getNodesInShortestPathOrder(grid.target)];
 }

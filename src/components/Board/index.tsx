@@ -33,7 +33,7 @@ export default function Board({
     setDisplay(updateDisplay(display, s.row, s.col, s.type));
   };
 
-  /* Mouse handlers */
+  /* Gets called when mouse button is pressed in square at given location */
   const handleMouseDown = (row: number, col: number): void => {
     const type = display[row][col];
 
@@ -48,11 +48,13 @@ export default function Board({
     }
   };
 
+  /* Gets called when mouse button is released in square at given location */
   const handleMouseUp = (row: number, col: number): void => {
     if (!mousePressed) return;
     setMousePressed(false);
   };
 
+  /* Gets called when mouse cursor enters square at given location */
   const handleMouseEnter = (row: number, col: number): void => {
     if (!mousePressed) return;
     const type = display[row][col];
@@ -68,7 +70,7 @@ export default function Board({
     }
   };
 
-  /* Called when the mouse cursor leaves the board */
+  /* Gets called when the mouse cursor leaves the board */
   const handleBoardLeave = (): void => {
     setMousePressed(false);
   };
@@ -82,12 +84,11 @@ export default function Board({
     handleMouseUp
   );
 
+  /* Number of squares in row times the square size (22px) */
+  const width = squares[0].length * 22;
+
   return (
-    <div
-      className="board"
-      style={{ width: `${squares[0].length * 20}px` }}
-      onMouseLeave={handleBoardLeave}
-    >
+    <div className="board" style={{ width }} onMouseLeave={handleBoardLeave}>
       {squares.map((row, r) => {
         return <div key={`row-${r}`}>{row}</div>;
       })}

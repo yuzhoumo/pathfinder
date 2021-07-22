@@ -146,5 +146,5 @@ export function visualize(visited: Node[], path: Node[]): void {
   /* Wait for first animation to finish */
   setTimeout(() => {
     animateNodes(path, SquareType.Path, 4 * timeout);
-  }, timeout * (visited.length - 1));
+  }, timeout * visited.length + 500);
 }

@@ -1,5 +1,14 @@
 import { SquareType } from './SquareTypes';
 
+/* Type alias for SquareType 2D array */
+export type Display = SquareType[][];
+
+/* Type alias for set state functions */
+export type Setter = (data: any) => void;
+
+/* Defines the function shape for pathfinding algorithms */
+export type Algorithm = (grid: Grid) => [visited: Node[], path: Node[]];
+
 /* Used internally by algorithms to perform computations */
 export interface Node {
   type: SquareType;
@@ -15,9 +24,3 @@ export interface Grid {
   source: Node;
   target: Node;
 }
-
-/* Type alias for SquareType 2D array */
-export type Display = SquareType[][];
-
-/* Type alias for set state functions */
-export type Setter = (data: any) => void;
