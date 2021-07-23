@@ -1,5 +1,5 @@
 import { SquareType } from '../types/SquareTypes';
-import { Display, Grid, Node } from '../types/VisualizerTypes';
+import { Grid, Node } from '../types/VisualizerTypes';
 import { setSquareType } from './squareUtils';
 import config from './config';
 
@@ -12,8 +12,8 @@ import config from './config';
  * @param {number} cols - Number of columns in display matrix
  * @return {Display} A 2D array of SquareTypes
  */
-export function initializeDisplay(rows: number, cols: number): Display {
-  const display: Display = [];
+export function initializeDisplay(rows: number, cols: number): SquareType[][] {
+  const display: SquareType[][] = [];
   for (let r = 0; r < rows; r += 1) {
     const row: SquareType[] = [];
     for (let c = 0; c < cols; c += 1) {
@@ -40,7 +40,7 @@ export function initializeDisplay(rows: number, cols: number): Display {
  * @param {Display} display - Number of rows in display matrix
  * @return {Grid} A 2D array of SquareTypes
  */
-export function initializeGrid(display: Display): Grid {
+export function initializeGrid(display: SquareType[][]): Grid {
   const nodes: Node[][] = [];
   const grid: Grid = {
     nodes,
@@ -97,11 +97,11 @@ export function initializeGrid(display: Display): Grid {
  * @return {Display} Copy of display with location set to new value
  */
 export function updateDisplay(
-  display: Display,
+  display: SquareType[][],
   row: number,
   col: number,
   type: SquareType
-): Display {
+): SquareType[][] {
   const copy = [...display];
   copy[row][col] = type;
   return copy;

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import './Board.css';
 import { SquareInfo, SquareType } from '../../types/SquareTypes';
 import { initializeSquares, setSquareType } from '../../utils/squareUtils';
-import { Display, Setter } from '../../types/VisualizerTypes';
 import { updateDisplay } from '../../utils/visualizerUtils';
 
 /*
@@ -17,8 +16,8 @@ export default function Board({
   display,
   setDisplay,
 }: {
-  display: Display;
-  setDisplay: Setter;
+  display: SquareType[][];
+  setDisplay: (display: SquareType[][]) => void;
 }): JSX.Element {
   const [rows, cols] = [display.length, display[0].length];
   const [mousePressed, setMousePressed] = useState(false);
@@ -50,6 +49,7 @@ export default function Board({
   };
 
   /* Gets called when mouse button is released in square at given location */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleMouseUp = (row: number, col: number): void => {
     if (!mousePressed) return;
     setMousePressed(false);

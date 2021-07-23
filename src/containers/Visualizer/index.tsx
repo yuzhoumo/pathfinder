@@ -10,7 +10,7 @@ import {
   updateDisplay,
   visualize,
 } from '../../utils/visualizerUtils';
-import { PathfindingAlgorithm, Grid } from '../../types/VisualizerTypes';
+import { PathfindingAlgorithm } from '../../types/VisualizerTypes';
 import Algorithms from '../../algorithms';
 import config from '../../utils/config';
 
@@ -76,7 +76,7 @@ export default function Visualizer({
   /* Runs on every display update */
   useEffect(() => {
     if (isVisualized) runAlgorithm(Algorithms.dijkstra, 0);
-  }, [display]);
+  }, [display]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

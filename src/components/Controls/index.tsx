@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import {
   DownOutlined,
@@ -6,15 +6,16 @@ import {
   BuildOutlined,
 } from '@ant-design/icons';
 import Algorithms from '../../algorithms';
+import { PathfindingAlgorithm } from '../../types/VisualizerTypes';
 
 export default function Controls({
   runAlgorithm,
   clearBoard,
   clearVisualization,
 }: {
-  runAlgorithm: any;
-  clearBoard: any;
-  clearVisualization: any;
+  runAlgorithm: (algorithm: PathfindingAlgorithm, timeout: number) => void;
+  clearBoard: () => void;
+  clearVisualization: () => void;
 }): JSX.Element {
   const algorithmMenu = (
     <Menu>
