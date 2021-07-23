@@ -7,7 +7,12 @@ export type Display = SquareType[][];
 export type Setter = (data: any) => void;
 
 /* Defines the function shape for pathfinding algorithms */
-export type Algorithm = (grid: Grid) => [visited: Node[], path: Node[]];
+export type PathfindingAlgorithm = (
+  grid: Grid
+) => [visited: Node[], path: Node[]];
+
+/* Defines the function shape for pattern generation algorithms */
+export type PatternGenerationAlgorithm = (grid: Grid) => Node[];
 
 /* Used internally by algorithms to perform computations */
 export interface Node {

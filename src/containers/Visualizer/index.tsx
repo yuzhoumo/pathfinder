@@ -10,7 +10,7 @@ import {
   updateDisplay,
   visualize,
 } from '../../utils/visualizerUtils';
-import { Algorithm, Grid } from '../../types/VisualizerTypes';
+import { PathfindingAlgorithm, Grid } from '../../types/VisualizerTypes';
 import Algorithms from '../../algorithms';
 import config from '../../utils/config';
 
@@ -57,7 +57,10 @@ export default function Visualizer({
   };
 
   /* Runs and animates a given pathfinding algorithm */
-  const runAlgorithm = (algorithm: Algorithm, timeout: number): void => {
+  const runAlgorithm = (
+    algorithm: PathfindingAlgorithm,
+    timeout: number
+  ): void => {
     if (algorithm === null) return;
 
     clearVisualization();
