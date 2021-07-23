@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import Board from '../../components/Board';
 import Controls from '../../components/Controls';
@@ -10,7 +10,8 @@ import {
   updateDisplay,
   visualize,
 } from '../../utils/visualizerUtils';
-import { Algorithm } from '../../types/VisualizerTypes';
+import { Algorithm, Grid } from '../../types/VisualizerTypes';
+import Algorithms from '../../algorithms';
 import config from '../../utils/config';
 
 export default function Visualizer({
@@ -21,6 +22,7 @@ export default function Visualizer({
   cols: number;
 }): JSX.Element {
   const [display, setDisplay] = useState(initializeDisplay(rows, cols));
+  const [isVisualized, setVisualized] = useState(false);
 
   /* Force updates the board CSS with internally tracked data */
   const renderDisplay = (): void => {
@@ -45,34 +47,33 @@ export default function Visualizer({
       }
     }
     renderDisplay();
+    setVisualized(false);
   };
 
   /* Clears path and visited nodes */
   const clearVisualization = (): void => {
-    for (let c = 0; c < display[0].length; c += 1) {
-      for (let r = 0; r < display.length; r += 1) {
-        if (
-          display[r][c] !== SquareType.Source &&
-          display[r][c] !== SquareType.Target &&
-          display[r][c] !== SquareType.Wall
-        ) {
-          setDisplay(updateDisplay(display, r, c, SquareType.Empty));
-        }
-      }
-    }
     renderDisplay();
+    setVisualized(false);
   };
 
   /* Runs and animates a given pathfinding algorithm */
-  const runAlgorithm = (algorithm: Algorithm): void => {
+  const runAlgorithm = (algorithm: Algorithm, timeout: number): void => {
+    if (algorithm === null) return;
+
     clearVisualization();
     const [visited, path] = algorithm(initializeGrid(display));
-    if (path.length === 0) {
+    if (path.length > 0) {
+      visualize(visited, path, timeout);
+      setVisualized(true);
+    } else {
       message.warning('The target is not reachable!');
-      return;
     }
-    visualize(visited, path);
   };
+
+  /* Runs on every display update */
+  useEffect(() => {
+    if (isVisualized) runAlgorithm(Algorithms.dijkstra, 0);
+  }, [display]);
 
   return (
     <>

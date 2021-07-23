@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import './Board.css';
@@ -88,7 +89,12 @@ export default function Board({
   const width = squares[0].length * 22;
 
   return (
-    <div className="board" style={{ width }} onMouseLeave={handleBoardLeave}>
+    <div
+      className="board"
+      style={{ width }}
+      onMouseUp={() => setMousePressed(false)}
+      onMouseLeave={handleBoardLeave}
+    >
       {squares.map((row, r) => {
         return <div key={`row-${r}`}>{row}</div>;
       })}

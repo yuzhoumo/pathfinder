@@ -115,14 +115,18 @@ export function updateDisplay(
  * @param {SquareType} type - New type to set at given square location
  * @param {number} timeout - Time to wait between setting each square
  */
-export function animateNodes(
+export function setNodes(
   nodes: Node[],
   type: SquareType,
   timeout: number
 ): void {
+  if (timeout === 0) {
+    nodes.slice(1, -1).map((n) => setSquareType(n.row, n.col, type));
+    return;
+  }
+
   for (let i = 1; i < nodes.length - 1; i += 1) {
     const n = nodes[i];
-
     setTimeout(() => {
       setSquareType(n.row, n.col, type);
     }, timeout * i);
@@ -139,12 +143,21 @@ export function animateNodes(
  * @param {SquareType} type - New type to set at given square location
  * @param {number} timeout - Time to wait between setting each square
  */
-export function visualize(visited: Node[], path: Node[]): void {
-  const timeout = 5;
-  animateNodes(visited, SquareType.Visited, timeout);
+export function visualize(
+  visited: Node[],
+  path: Node[],
+  timeout: number
+): void {
+  if (timeout === 0) {
+    setNodes(visited, SquareType.Visited, 0);
+    setNodes(path, SquareType.Path, 0);
+    return;
+  }
+
+  setNodes(visited, SquareType.Visited, timeout);
 
   /* Wait for first animation to finish */
   setTimeout(() => {
-    animateNodes(path, SquareType.Path, 4 * timeout);
-  }, timeout * visited.length + 500);
+    setNodes(path, SquareType.Path, 4 * timeout);
+  }, timeout * visited.length + 10 * timeout);
 }

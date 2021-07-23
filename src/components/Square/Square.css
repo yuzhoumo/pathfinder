@@ -1,5 +1,5 @@
 .square {
-  width: 22px;
+  min-width: 22px;
   height: 22px;
   background-color: #111;
   outline: 1px solid #222;
@@ -16,6 +16,14 @@
 
 .square-wall {
   background-color: rgb(12, 53, 71);
+  animation-name: animateWall;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .square-visited {
@@ -30,6 +38,7 @@
 }
 
 .square-path {
+  background-color: rgb(255, 254, 106);
   animation-name: animatePath;
   animation-duration: 1s;
   animation-timing-function: ease-out;
@@ -40,20 +49,24 @@
   animation-play-state: running;
 }
 
-@keyframes animateVisit {
+@keyframes animateWall {
   0% {
-    transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
-    border-radius: 100%;
+    transform: scale(0.6);
   }
 
   50% {
-    background-color: rgba(17, 104, 217, 0.75);
+    transform: scale(1.2);
   }
 
-  75% {
-    transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animateVisit {
+  0% {
+    transform: scale(0.6);
+    background-color: rgba(17, 104, 217, 0.75);
   }
 
   100% {
@@ -65,16 +78,13 @@
 @keyframes animatePath {
   0% {
     transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
   }
 
   50% {
     transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
   }
 
   100% {
     transform: scale(1);
-    background-color: rgb(255, 254, 106);
   }
 }

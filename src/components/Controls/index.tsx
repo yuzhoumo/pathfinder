@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageHeader, Button, Menu, Dropdown } from 'antd';
 import {
   DownOutlined,
@@ -19,19 +19,19 @@ export default function Controls({
   const algorithmMenu = (
     <Menu>
       <Menu.Item
-        key="1"
-        onClick={() => runAlgorithm(Algorithms.dijkstra)}
+        key="dijkstra"
+        onClick={() => runAlgorithm(Algorithms.dijkstra, 6)}
         icon={<BranchesOutlined />}
       >
         Dijkstra&apos;s Algorithm
       </Menu.Item>
-      <Menu.Item key="2" icon={<BranchesOutlined />}>
+      <Menu.Item key="astar" icon={<BranchesOutlined />}>
         A* Search
       </Menu.Item>
-      <Menu.Item key="3" icon={<BranchesOutlined />}>
+      <Menu.Item key="bfs" icon={<BranchesOutlined />}>
         Breadth-first Search
       </Menu.Item>
-      <Menu.Item key="3" icon={<BranchesOutlined />}>
+      <Menu.Item key="dfs" icon={<BranchesOutlined />}>
         Depth-first Search
       </Menu.Item>
     </Menu>
@@ -39,10 +39,10 @@ export default function Controls({
 
   const patternMenu = (
     <Menu>
-      <Menu.Item key="1" icon={<BuildOutlined />}>
+      <Menu.Item key="recursive-division" icon={<BuildOutlined />}>
         Recursive Division
       </Menu.Item>
-      <Menu.Item key="2" icon={<BuildOutlined />}>
+      <Menu.Item key="random" icon={<BuildOutlined />}>
         Random Maze
       </Menu.Item>
     </Menu>
@@ -55,17 +55,26 @@ export default function Controls({
         title="Pathfinder"
         subTitle="An interactive visualizer for various pathfinding algorithms"
         extra={[
-          <Dropdown key="1" placement="bottomCenter" overlay={algorithmMenu}>
+          <Dropdown
+            key="visualize"
+            placement="bottomCenter"
+            overlay={algorithmMenu}
+          >
             <Button type="primary">
-              Visualize <DownOutlined />
+              Visualize
+              <DownOutlined />
             </Button>
           </Dropdown>,
-          <Dropdown key="1" placement="bottomCenter" overlay={patternMenu}>
+          <Dropdown
+            key="generate-pattern"
+            placement="bottomCenter"
+            overlay={patternMenu}
+          >
             <Button>
               Generate Pattern <DownOutlined />
             </Button>
           </Dropdown>,
-          <Button key="2" onClick={clearVisualization}>
+          <Button key="clear-visualization" onClick={clearVisualization}>
             Clear Visualization
           </Button>,
           <Button key="3" onClick={clearBoard}>
