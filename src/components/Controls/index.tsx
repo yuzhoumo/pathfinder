@@ -5,15 +5,17 @@ import {
   BranchesOutlined,
   BuildOutlined,
 } from '@ant-design/icons';
-import Algorithms from '../../algorithms';
-import { PathfindingAlgorithm } from '../../types/VisualizerTypes';
+import { Mazes, Pathfinders } from '../../algorithms';
+import { PathfindingAlgorithm, Node, Grid } from '../../types/VisualizerTypes';
 
 export default function Controls({
   runAlgorithm,
+  generateMaze,
   clearBoard,
   clearVisualization,
 }: {
   runAlgorithm: (algorithm: PathfindingAlgorithm, timeout: number) => void;
+  generateMaze: (nodes: (grid: Grid) => Node[], timeout: number) => void;
   clearBoard: () => void;
   clearVisualization: () => void;
 }): JSX.Element {
@@ -21,7 +23,7 @@ export default function Controls({
     <Menu>
       <Menu.Item
         key="dijkstra"
-        onClick={() => runAlgorithm(Algorithms.dijkstra, 6)}
+        onClick={() => runAlgorithm(Pathfinders.dijkstra, 6)}
         icon={<BranchesOutlined />}
       >
         Dijkstra&apos;s Algorithm
@@ -32,7 +34,11 @@ export default function Controls({
       <Menu.Item key="bfs" icon={<BranchesOutlined />}>
         Breadth-first Search
       </Menu.Item>
-      <Menu.Item key="dfs" icon={<BranchesOutlined />}>
+      <Menu.Item
+        key="dfs"
+        onClick={() => runAlgorithm(Pathfinders.dfs, 6)}
+        icon={<BranchesOutlined />}
+      >
         Depth-first Search
       </Menu.Item>
     </Menu>
@@ -43,7 +49,11 @@ export default function Controls({
       <Menu.Item key="recursive-division" icon={<BuildOutlined />}>
         Recursive Division
       </Menu.Item>
-      <Menu.Item key="random" icon={<BuildOutlined />}>
+      <Menu.Item
+        key="random"
+        onClick={() => generateMaze(Mazes.rand, 6)}
+        icon={<BuildOutlined />}
+      >
         Random Maze
       </Menu.Item>
     </Menu>

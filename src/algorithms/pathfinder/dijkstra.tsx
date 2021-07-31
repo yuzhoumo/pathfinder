@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
-import { SquareType } from '../types/SquareTypes';
-import { Grid, Node } from '../types/VisualizerTypes';
+import { SquareType } from '../../types/SquareTypes';
+import { Grid, Node } from '../../types/VisualizerTypes';
 import {
   flattenNodes,
   getPath,
   getUnvisitedNeighbors,
   sortNodes,
-} from '../utils/algorithmUtils';
+} from '../../utils/algorithmUtils';
 
 function updateNeighbors(curr: Node, nodes: Node[][]): void {
   const unvisitedNeighbors: Node[] = getUnvisitedNeighbors(curr, nodes);

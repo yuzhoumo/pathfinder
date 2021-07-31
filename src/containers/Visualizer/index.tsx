@@ -7,11 +7,12 @@ import { setSquareType } from '../../utils/squareUtils';
 import {
   initializeDisplay,
   initializeGrid,
+  setNodes,
   updateDisplay,
   visualize,
 } from '../../utils/visualizerUtils';
-import { PathfindingAlgorithm } from '../../types/VisualizerTypes';
-import Algorithms from '../../algorithms';
+import { Grid, Node, PathfindingAlgorithm } from '../../types/VisualizerTypes';
+import { Pathfinders } from '../../algorithms';
 import config from '../../utils/config';
 
 export default function Visualizer({
@@ -73,15 +74,31 @@ export default function Visualizer({
     }
   };
 
+  /* Generates and animates drawing of given maze */
+  const generateMaze = (
+    generator: (grid: Grid) => Node[],
+    timeout: number
+  ): void => {
+    if (generator === null) return;
+
+    clearDisplay();
+    const walls = generator(initializeGrid(display));
+    setNodes(walls, SquareType.Wall, timeout);
+    walls.forEach((n) => {
+      updateDisplay(display, n.row, n.col, SquareType.Wall);
+    });
+  };
+
   /* Runs on every display update */
   useEffect(() => {
-    if (isVisualized) runAlgorithm(Algorithms.dijkstra, 0);
+    if (isVisualized) runAlgorithm(Pathfinders.dijkstra, 0);
   }, [display]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       <Controls
         runAlgorithm={runAlgorithm}
+        generateMaze={generateMaze}
         clearBoard={clearDisplay}
         clearVisualization={clearVisualization}
       />
