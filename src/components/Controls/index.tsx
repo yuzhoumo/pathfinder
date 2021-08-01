@@ -1,5 +1,5 @@
-import React from 'react';
-import { PageHeader, Button, Menu, Dropdown } from 'antd';
+import React, { useState } from 'react';
+import { PageHeader, Button, Menu, Dropdown, Select } from 'antd';
 import {
   DownOutlined,
   BranchesOutlined,
@@ -25,32 +25,34 @@ export default function Controls({
   clearVisualization: () => void;
   loading: boolean;
 }): JSX.Element {
+  const [timeout, setTimeout] = useState(6);
+
   const algorithmMenu = (
     <Menu>
       <Menu.Item
         key="astar"
-        onClick={() => runAlgorithm(Pathfinders.astar, 6)}
+        onClick={() => runAlgorithm(Pathfinders.astar, timeout)}
         icon={<BranchesOutlined />}
       >
         A* Search
       </Menu.Item>
       <Menu.Item
         key="dijkstra"
-        onClick={() => runAlgorithm(Pathfinders.dijkstra, 6)}
+        onClick={() => runAlgorithm(Pathfinders.dijkstra, timeout)}
         icon={<BranchesOutlined />}
       >
         Dijkstra&apos;s Algorithm
       </Menu.Item>
       <Menu.Item
         key="bfs"
-        onClick={() => runAlgorithm(Pathfinders.bfs, 6)}
+        onClick={() => runAlgorithm(Pathfinders.bfs, timeout)}
         icon={<BranchesOutlined />}
       >
         Breadth-first Search
       </Menu.Item>
       <Menu.Item
         key="dfs"
-        onClick={() => runAlgorithm(Pathfinders.dfs, 6)}
+        onClick={() => runAlgorithm(Pathfinders.dfs, timeout)}
         icon={<BranchesOutlined />}
       >
         Depth-first Search
@@ -62,14 +64,14 @@ export default function Controls({
     <Menu>
       <Menu.Item
         key="flood-fill"
-        onClick={() => generateMaze(Mazes.floodfill, 6, false)}
+        onClick={() => generateMaze(Mazes.floodfill, timeout, false)}
         icon={<BuildOutlined />}
       >
         Flood Fill (DFS)
       </Menu.Item>
       <Menu.Item
         key="random-fill"
-        onClick={() => generateMaze(Mazes.rand, 6, true)}
+        onClick={() => generateMaze(Mazes.rand, timeout, true)}
         icon={<BuildOutlined />}
       >
         Random Fill
@@ -103,6 +105,17 @@ export default function Controls({
               Generate Pattern <DownOutlined />
             </Button>
           </Dropdown>,
+          <Select
+            key="speed"
+            defaultValue={6}
+            onChange={(n) => setTimeout(n)}
+            disabled={loading}
+          >
+            <Select.Option value={0}>Speed: Instant</Select.Option>
+            <Select.Option value={6}>Speed: Fast</Select.Option>
+            <Select.Option value={12}>Speed: Medium</Select.Option>
+            <Select.Option value={24}>Speed: Slow</Select.Option>
+          </Select>,
           <Button
             key="clear-visualization"
             onClick={clearVisualization}
