@@ -13,6 +13,7 @@ export default function Controls({
   generateMaze,
   clearBoard,
   clearVisualization,
+  setPathfinder,
   loading,
 }: {
   runAlgorithm: (algorithm: PathfindingAlgorithm, timeout: number) => void;
@@ -23,6 +24,7 @@ export default function Controls({
   ) => void;
   clearBoard: () => void;
   clearVisualization: () => void;
+  setPathfinder: (name: string) => void;
   loading: boolean;
 }): JSX.Element {
   const [timeout, setTimeout] = useState(6);
@@ -31,28 +33,40 @@ export default function Controls({
     <Menu>
       <Menu.Item
         key="dijkstra"
-        onClick={() => runAlgorithm(Pathfinders.dijkstra, timeout)}
+        onClick={() => {
+          setPathfinder('dijkstra');
+          runAlgorithm(Pathfinders.dijkstra, timeout);
+        }}
         icon={<BranchesOutlined />}
       >
         Dijkstra&apos;s Algorithm
       </Menu.Item>
       <Menu.Item
         key="best-first"
-        onClick={() => runAlgorithm(Pathfinders.bestfirst, timeout)}
+        onClick={() => {
+          setPathfinder('bestfirst');
+          runAlgorithm(Pathfinders.bestfirst, timeout);
+        }}
         icon={<BranchesOutlined />}
       >
         Greedy Best-first Search
       </Menu.Item>
       <Menu.Item
         key="bfs"
-        onClick={() => runAlgorithm(Pathfinders.bfs, timeout)}
+        onClick={() => {
+          setPathfinder('bfs');
+          runAlgorithm(Pathfinders.bfs, timeout);
+        }}
         icon={<BranchesOutlined />}
       >
         Breadth-first Search
       </Menu.Item>
       <Menu.Item
         key="dfs"
-        onClick={() => runAlgorithm(Pathfinders.dfs, timeout)}
+        onClick={() => {
+          setPathfinder('dfs');
+          runAlgorithm(Pathfinders.dfs, timeout);
+        }}
         icon={<BranchesOutlined />}
       >
         Depth-first Search

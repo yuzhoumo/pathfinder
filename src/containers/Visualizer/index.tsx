@@ -14,6 +14,7 @@ import {
 import { Grid, Node, PathfindingAlgorithm } from '../../types/VisualizerTypes';
 import { Pathfinders } from '../../algorithms';
 import config from '../../utils/config';
+import Legend from '../../components/Legend';
 
 export default function Visualizer({
   rows,
@@ -25,6 +26,7 @@ export default function Visualizer({
   const [display, setDisplay] = useState(initializeDisplay(rows, cols));
   const [isVisualized, setVisualized] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedPathfinder, setPathfinder] = useState('');
 
   /* Force updates the board CSS with internally tracked data */
   const renderDisplay = (): void => {
@@ -106,7 +108,11 @@ export default function Visualizer({
 
   /* Runs on every display update */
   useEffect(() => {
-    if (isVisualized) runPathfinder(Pathfinders.dijkstra, 0);
+    if (isVisualized) {
+      const pathfinder: PathfindingAlgorithm | undefined =
+        Pathfinders[selectedPathfinder];
+      if (pathfinder) runPathfinder(pathfinder, 0);
+    }
   }, [display]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -116,9 +122,11 @@ export default function Visualizer({
         generateMaze={generateMaze}
         clearBoard={() => fillDisplay(SquareType.Empty)}
         clearVisualization={clearVisualization}
+        setPathfinder={setPathfinder}
         loading={loading}
       />
       <Board display={display} setDisplay={setDisplay} loading={loading} />
+      <Legend />
     </>
   );
 }
