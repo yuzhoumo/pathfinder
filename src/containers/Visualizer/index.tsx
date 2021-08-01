@@ -57,6 +57,7 @@ export default function Visualizer({
     setVisualized(false);
     setPathLength(0);
     setVisitedSquares(0);
+    setPathfinder('None');
   };
 
   /* Clears path and visited nodes */

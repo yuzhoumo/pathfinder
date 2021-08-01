@@ -104,6 +104,7 @@ export default function Controls({
             key="visualize"
             placement="bottomCenter"
             overlay={algorithmMenu}
+            trigger={['click']}
           >
             <Button type="primary" loading={loading}>
               Visualize
@@ -114,6 +115,7 @@ export default function Controls({
             key="generate-pattern"
             placement="bottomCenter"
             overlay={patternMenu}
+            trigger={['click']}
           >
             <Button loading={loading}>
               Generate Walls <DownOutlined />
