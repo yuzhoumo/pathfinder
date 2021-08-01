@@ -24,6 +24,7 @@ export default function Visualizer({
 }): JSX.Element {
   const [display, setDisplay] = useState(initializeDisplay(rows, cols));
   const [isVisualized, setVisualized] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /* Force updates the board CSS with internally tracked data */
   const renderDisplay = (): void => {
@@ -67,7 +68,7 @@ export default function Visualizer({
     clearVisualization();
     const [visited, path] = algorithm(initializeGrid(display));
     if (path.length > 0) {
-      visualize(visited, path, timeout);
+      visualize(visited, path, timeout, setLoading);
       setVisualized(true);
     } else {
       message.warning('The target is not reachable!');
@@ -82,6 +83,8 @@ export default function Visualizer({
   ): void => {
     if (generator === null) return;
 
+    setLoading(true);
+
     if (additive) {
       fillDisplay(SquareType.Empty);
     } else {
@@ -89,6 +92,7 @@ export default function Visualizer({
     }
 
     const nodes = generator(initializeGrid(display));
+    setTimeout(() => setLoading(false), timeout * nodes.length + 10 * timeout);
     setNodes(nodes, additive ? SquareType.Wall : SquareType.Empty, timeout);
     nodes.forEach((n) => {
       updateDisplay(
@@ -112,8 +116,9 @@ export default function Visualizer({
         generateMaze={generateMaze}
         clearBoard={() => fillDisplay(SquareType.Empty)}
         clearVisualization={clearVisualization}
+        loading={loading}
       />
-      <Board display={display} setDisplay={setDisplay} />
+      <Board display={display} setDisplay={setDisplay} loading={loading} />
     </>
   );
 }

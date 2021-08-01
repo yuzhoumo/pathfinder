@@ -13,6 +13,7 @@ export default function Controls({
   generateMaze,
   clearBoard,
   clearVisualization,
+  loading,
 }: {
   runAlgorithm: (algorithm: PathfindingAlgorithm, timeout: number) => void;
   generateMaze: (
@@ -22,6 +23,7 @@ export default function Controls({
   ) => void;
   clearBoard: () => void;
   clearVisualization: () => void;
+  loading: boolean;
 }): JSX.Element {
   const algorithmMenu = (
     <Menu>
@@ -87,7 +89,7 @@ export default function Controls({
             placement="bottomCenter"
             overlay={algorithmMenu}
           >
-            <Button type="primary">
+            <Button type="primary" loading={loading}>
               Visualize
               <DownOutlined />
             </Button>
@@ -97,14 +99,18 @@ export default function Controls({
             placement="bottomCenter"
             overlay={patternMenu}
           >
-            <Button>
+            <Button loading={loading}>
               Generate Pattern <DownOutlined />
             </Button>
           </Dropdown>,
-          <Button key="clear-visualization" onClick={clearVisualization}>
+          <Button
+            key="clear-visualization"
+            onClick={clearVisualization}
+            disabled={loading}
+          >
             Clear Visualization
           </Button>,
-          <Button key="3" onClick={clearBoard}>
+          <Button key="clear-board" onClick={clearBoard} disabled={loading}>
             Clear Board
           </Button>,
         ]}

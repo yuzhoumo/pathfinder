@@ -15,9 +15,11 @@ import { updateDisplay } from '../../utils/visualizerUtils';
 export default function Board({
   display,
   setDisplay,
+  loading,
 }: {
   display: SquareType[][];
   setDisplay: (display: SquareType[][]) => void;
+  loading: boolean;
 }): JSX.Element {
   const [rows, cols] = [display.length, display[0].length];
   const [mousePressed, setMousePressed] = useState(false);
@@ -35,6 +37,7 @@ export default function Board({
 
   /* Gets called when mouse button is pressed in square at given location */
   const handleMouseDown = (row: number, col: number): void => {
+    if (loading) return;
     const type = display[row][col];
 
     setMousePressed(true);
@@ -57,7 +60,7 @@ export default function Board({
 
   /* Gets called when mouse cursor enters square at given location */
   const handleMouseEnter = (row: number, col: number): void => {
-    if (!mousePressed) return;
+    if (!mousePressed || loading) return;
     const type = display[row][col];
 
     /* Draw wall or empty nodes on drag */

@@ -146,7 +146,8 @@ export function setNodes(
 export function visualize(
   visited: Node[],
   path: Node[],
-  timeout: number
+  timeout: number,
+  setLoading: (loading: boolean) => void
 ): void {
   if (timeout === 0) {
     setNodes(visited, SquareType.Visited, 0);
@@ -154,10 +155,20 @@ export function visualize(
     return;
   }
 
+  const bufferTimeout = 10 * timeout;
+  const waitVisited = timeout * visited.length + bufferTimeout;
+  const waitPath = 4 * timeout * path.length + bufferTimeout;
+  const waitLoading = waitVisited + waitPath;
+
+  setLoading(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, waitLoading);
+
   setNodes(visited, SquareType.Visited, timeout);
 
   /* Wait for first animation to finish */
   setTimeout(() => {
     setNodes(path, SquareType.Path, 4 * timeout);
-  }, timeout * visited.length + 10 * timeout);
+  }, waitVisited);
 }
