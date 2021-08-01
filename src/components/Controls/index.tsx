@@ -116,7 +116,7 @@ export default function Controls({
             overlay={patternMenu}
           >
             <Button loading={loading}>
-              Generate Pattern <DownOutlined />
+              Generate Walls <DownOutlined />
             </Button>
           </Dropdown>,
           <Select
