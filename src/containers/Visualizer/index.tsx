@@ -35,7 +35,7 @@ export default function Visualizer({
   };
 
   /* Reset display and board CSS to default state */
-  const clearDisplay = (): void => {
+  const fillDisplay = (type: SquareType): void => {
     for (let r = 0; r < rows; r += 1) {
       for (let c = 0; c < cols; c += 1) {
         if (c === config.source.col && r === config.source.row) {
@@ -43,7 +43,7 @@ export default function Visualizer({
         } else if (c === config.target.col && r === config.target.row) {
           setDisplay(updateDisplay(display, r, c, SquareType.Target));
         } else {
-          setDisplay(updateDisplay(display, r, c, SquareType.Empty));
+          setDisplay(updateDisplay(display, r, c, type));
         }
       }
     }
@@ -58,7 +58,7 @@ export default function Visualizer({
   };
 
   /* Runs and animates a given pathfinding algorithm */
-  const runAlgorithm = (
+  const runPathfinder = (
     algorithm: PathfindingAlgorithm,
     timeout: number
   ): void => {
@@ -77,29 +77,40 @@ export default function Visualizer({
   /* Generates and animates drawing of given maze */
   const generateMaze = (
     generator: (grid: Grid) => Node[],
-    timeout: number
+    timeout: number,
+    additive: boolean
   ): void => {
     if (generator === null) return;
 
-    clearDisplay();
-    const walls = generator(initializeGrid(display));
-    setNodes(walls, SquareType.Wall, timeout);
-    walls.forEach((n) => {
-      updateDisplay(display, n.row, n.col, SquareType.Wall);
+    if (additive) {
+      fillDisplay(SquareType.Empty);
+    } else {
+      fillDisplay(SquareType.Wall);
+    }
+
+    const nodes = generator(initializeGrid(display));
+    setNodes(nodes, additive ? SquareType.Wall : SquareType.Empty, timeout);
+    nodes.forEach((n) => {
+      updateDisplay(
+        display,
+        n.row,
+        n.col,
+        additive ? SquareType.Wall : SquareType.Empty
+      );
     });
   };
 
   /* Runs on every display update */
   useEffect(() => {
-    if (isVisualized) runAlgorithm(Pathfinders.dijkstra, 0);
+    if (isVisualized) runPathfinder(Pathfinders.dijkstra, 0);
   }, [display]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       <Controls
-        runAlgorithm={runAlgorithm}
+        runAlgorithm={runPathfinder}
         generateMaze={generateMaze}
-        clearBoard={clearDisplay}
+        clearBoard={() => fillDisplay(SquareType.Empty)}
         clearVisualization={clearVisualization}
       />
       <Board display={display} setDisplay={setDisplay} />

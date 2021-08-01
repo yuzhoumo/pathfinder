@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { Grid, Node } from '../../types/VisualizerTypes';
 
 export default function rand(grid: Grid): Node[] {

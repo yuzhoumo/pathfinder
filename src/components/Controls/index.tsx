@@ -15,12 +15,19 @@ export default function Controls({
   clearVisualization,
 }: {
   runAlgorithm: (algorithm: PathfindingAlgorithm, timeout: number) => void;
-  generateMaze: (nodes: (grid: Grid) => Node[], timeout: number) => void;
+  generateMaze: (
+    nodes: (grid: Grid) => Node[],
+    timeout: number,
+    additive: boolean
+  ) => void;
   clearBoard: () => void;
   clearVisualization: () => void;
 }): JSX.Element {
   const algorithmMenu = (
     <Menu>
+      <Menu.Item key="astar" icon={<BranchesOutlined />}>
+        A* Search
+      </Menu.Item>
       <Menu.Item
         key="dijkstra"
         onClick={() => runAlgorithm(Pathfinders.dijkstra, 6)}
@@ -28,10 +35,11 @@ export default function Controls({
       >
         Dijkstra&apos;s Algorithm
       </Menu.Item>
-      <Menu.Item key="astar" icon={<BranchesOutlined />}>
-        A* Search
-      </Menu.Item>
-      <Menu.Item key="bfs" icon={<BranchesOutlined />}>
+      <Menu.Item
+        key="bfs"
+        onClick={() => runAlgorithm(Pathfinders.bfs, 6)}
+        icon={<BranchesOutlined />}
+      >
         Breadth-first Search
       </Menu.Item>
       <Menu.Item
@@ -46,15 +54,19 @@ export default function Controls({
 
   const patternMenu = (
     <Menu>
-      <Menu.Item key="recursive-division" icon={<BuildOutlined />}>
-        Recursive Division
-      </Menu.Item>
       <Menu.Item
-        key="random"
-        onClick={() => generateMaze(Mazes.rand, 6)}
+        key="flood-fill"
+        onClick={() => generateMaze(Mazes.floodfill, 6, false)}
         icon={<BuildOutlined />}
       >
-        Random Maze
+        Flood Fill (DFS)
+      </Menu.Item>
+      <Menu.Item
+        key="random-fill"
+        onClick={() => generateMaze(Mazes.rand, 6, true)}
+        icon={<BuildOutlined />}
+      >
+        Random Fill
       </Menu.Item>
     </Menu>
   );

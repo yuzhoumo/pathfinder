@@ -34,5 +34,5 @@ export default function dijkstra(grid: Grid): [Node[], Node[]] {
     }
   }
 
-  return [visited, getPath(grid.target)];
+  return [visited.slice(1, -1), getPath(grid.target).slice(1, -1)];
 }

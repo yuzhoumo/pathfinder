@@ -21,6 +21,7 @@ export function getPath(target: Node): Node[] {
   while (curr !== null) {
     path.unshift(curr);
     curr = curr.prev;
+    console.log(curr);
   }
   return path;
 }

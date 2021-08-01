@@ -121,11 +121,11 @@ export function setNodes(
   timeout: number
 ): void {
   if (timeout === 0) {
-    nodes.slice(1, -1).map((n) => setSquareType(n.row, n.col, type));
+    nodes.map((n) => setSquareType(n.row, n.col, type));
     return;
   }
 
-  for (let i = 1; i < nodes.length - 1; i += 1) {
+  for (let i = 0; i < nodes.length; i += 1) {
     const n = nodes[i];
     setTimeout(() => {
       setSquareType(n.row, n.col, type);
