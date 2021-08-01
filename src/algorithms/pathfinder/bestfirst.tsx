@@ -21,7 +21,7 @@ function updateNeighbors(curr: Node, grid: Grid): void {
   });
 }
 
-export default function astar(grid: Grid): [Node[], Node[]] {
+export default function bestfirst(grid: Grid): [Node[], Node[]] {
   const sortNodes = (nodes: Node[]): void => {
     nodes.sort((a, b) => {
       return (

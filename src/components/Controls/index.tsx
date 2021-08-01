@@ -30,18 +30,18 @@ export default function Controls({
   const algorithmMenu = (
     <Menu>
       <Menu.Item
-        key="astar"
-        onClick={() => runAlgorithm(Pathfinders.astar, timeout)}
-        icon={<BranchesOutlined />}
-      >
-        A* Search
-      </Menu.Item>
-      <Menu.Item
         key="dijkstra"
         onClick={() => runAlgorithm(Pathfinders.dijkstra, timeout)}
         icon={<BranchesOutlined />}
       >
         Dijkstra&apos;s Algorithm
+      </Menu.Item>
+      <Menu.Item
+        key="best-first"
+        onClick={() => runAlgorithm(Pathfinders.bestfirst, timeout)}
+        icon={<BranchesOutlined />}
+      >
+        Greedy Best-first Search
       </Menu.Item>
       <Menu.Item
         key="bfs"
