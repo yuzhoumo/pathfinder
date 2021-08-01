@@ -8,13 +8,11 @@ export default function Legend(): JSX.Element {
       title="Square Types"
       style={{
         border: 'none',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        display: 'block',
-        float: 'none',
         textAlign: 'center',
-        width: 1100,
-        marginTop: -20,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
     >
       <div

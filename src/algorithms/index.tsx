@@ -14,6 +14,13 @@ export const Pathfinders: { [key: string]: PathfindingAlgorithm } = {
   dfs,
 };
 
+export const PathfinderNames: { [key: string]: string } = {
+  bestfirst: 'Best-first',
+  bfs: 'Breadth-first',
+  dijkstra: "Dijkstra's",
+  dfs: 'Depth-first',
+};
+
 export const Mazes = {
   division,
   rand,

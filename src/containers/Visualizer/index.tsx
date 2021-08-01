@@ -15,6 +15,7 @@ import { Grid, Node, PathfindingAlgorithm } from '../../types/VisualizerTypes';
 import { Pathfinders } from '../../algorithms';
 import config from '../../utils/config';
 import Legend from '../../components/Legend';
+import Stats from '../../components/Stats';
 
 export default function Visualizer({
   rows,
@@ -26,7 +27,9 @@ export default function Visualizer({
   const [display, setDisplay] = useState(initializeDisplay(rows, cols));
   const [isVisualized, setVisualized] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedPathfinder, setPathfinder] = useState('');
+  const [selectedPathfinder, setPathfinder] = useState('None');
+  const [visitedSquares, setVisitedSquares] = useState(0);
+  const [pathLength, setPathLength] = useState(0);
 
   /* Force updates the board CSS with internally tracked data */
   const renderDisplay = (): void => {
@@ -52,12 +55,17 @@ export default function Visualizer({
     }
     renderDisplay();
     setVisualized(false);
+    setPathLength(0);
+    setVisitedSquares(0);
   };
 
   /* Clears path and visited nodes */
   const clearVisualization = (): void => {
     renderDisplay();
     setVisualized(false);
+    setPathfinder('None');
+    setPathLength(0);
+    setVisitedSquares(0);
   };
 
   /* Runs and animates a given pathfinding algorithm */
@@ -67,8 +75,12 @@ export default function Visualizer({
   ): void => {
     if (algorithm === null) return;
 
-    clearVisualization();
+    renderDisplay();
     const [visited, path] = algorithm(initializeGrid(display));
+
+    setPathLength(path.length);
+    setVisitedSquares(visited.length);
+
     if (path.length > 0) {
       visualize(visited, path, timeout, setLoading);
       setVisualized(true);
@@ -126,7 +138,32 @@ export default function Visualizer({
         loading={loading}
       />
       <Board display={display} setDisplay={setDisplay} loading={loading} />
-      <Legend />
+      <div
+        style={{
+          width: 1100,
+          marginRight: 'auto',
+          marginLeft: 'auto',
+          float: 'none',
+        }}
+      >
+        <ul
+          style={{
+            display: 'flex',
+            listStyleType: 'none',
+          }}
+        >
+          <li style={{ marginLeft: -42, width: 500 }}>
+            <Legend />
+          </li>
+          <li style={{ marginLeft: 20, marginRight: -2, width: 600 }}>
+            <Stats
+              algorithm={selectedPathfinder}
+              visitedSquares={visitedSquares}
+              pathLength={pathLength}
+            />
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
