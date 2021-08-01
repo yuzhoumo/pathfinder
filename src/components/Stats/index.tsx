@@ -27,7 +27,11 @@ export default function Stats({
         <Col span={8}>
           <Statistic
             title="Selected Pathfinder"
-            value={PathfinderNames[algorithm]}
+            value={
+              PathfinderNames[algorithm]
+                ? PathfinderNames[algorithm]
+                : algorithm
+            }
             precision={2}
           />
         </Col>
