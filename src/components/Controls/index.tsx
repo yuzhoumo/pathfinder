@@ -25,7 +25,11 @@ export default function Controls({
 }): JSX.Element {
   const algorithmMenu = (
     <Menu>
-      <Menu.Item key="astar" icon={<BranchesOutlined />}>
+      <Menu.Item
+        key="astar"
+        onClick={() => runAlgorithm(Pathfinders.astar, 6)}
+        icon={<BranchesOutlined />}
+      >
         A* Search
       </Menu.Item>
       <Menu.Item
