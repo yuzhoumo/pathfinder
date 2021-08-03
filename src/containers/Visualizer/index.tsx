@@ -16,6 +16,7 @@ import { Pathfinders } from '../../algorithms';
 import config from '../../utils/config';
 import Legend from '../../components/Legend';
 import Stats from '../../components/Stats';
+import Description from '../../components/Description';
 
 export default function Visualizer({
   rows,
@@ -165,6 +166,20 @@ export default function Visualizer({
           </li>
         </ul>
       </div>
+      {selectedPathfinder !== 'None' ? (
+        <div
+          style={{
+            width: 1100,
+            marginTop: 20,
+            marginBottom: 50,
+            marginRight: 'auto',
+            marginLeft: 'auto',
+            float: 'none',
+          }}
+        >
+          <Description pathfinder={selectedPathfinder} />
+        </div>
+      ) : null}
     </>
   );
 }
