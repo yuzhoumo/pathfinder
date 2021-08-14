@@ -32,6 +32,16 @@ export default function Controls({
   const algorithmMenu = (
     <Menu>
       <Menu.Item
+        key="astar"
+        onClick={() => {
+          setPathfinder('astar');
+          runAlgorithm(Pathfinders.astar, timeout);
+        }}
+        icon={<BranchesOutlined />}
+      >
+        A* Search
+      </Menu.Item>
+      <Menu.Item
         key="dijkstra"
         onClick={() => {
           setPathfinder('dijkstra');
@@ -84,6 +94,13 @@ export default function Controls({
         Flood Fill (DFS)
       </Menu.Item>
       <Menu.Item
+        key="recursive-division"
+        onClick={() => generateMaze(Mazes.division, timeout, true)}
+        icon={<BuildOutlined />}
+      >
+        Recursive Division
+      </Menu.Item>
+      <Menu.Item
         key="random-fill"
         onClick={() => generateMaze(Mazes.rand, timeout, true)}
         icon={<BuildOutlined />}
@@ -123,14 +140,14 @@ export default function Controls({
           </Dropdown>,
           <Select
             key="speed"
-            defaultValue={6}
+            defaultValue={8}
             onChange={(n) => setTimeout(n)}
             disabled={loading}
           >
             <Select.Option value={0}>Speed: Instant</Select.Option>
-            <Select.Option value={6}>Speed: Fast</Select.Option>
-            <Select.Option value={12}>Speed: Medium</Select.Option>
-            <Select.Option value={24}>Speed: Slow</Select.Option>
+            <Select.Option value={8}>Speed: Fast</Select.Option>
+            <Select.Option value={32}>Speed: Medium</Select.Option>
+            <Select.Option value={128}>Speed: Slow</Select.Option>
           </Select>,
           <Button
             key="clear-visualization"

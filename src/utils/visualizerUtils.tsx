@@ -155,9 +155,9 @@ export function visualize(
     return;
   }
 
-  const bufferTimeout = 10 * timeout;
+  const bufferTimeout = 2 * timeout;
   const waitVisited = timeout * visited.length + bufferTimeout;
-  const waitPath = 4 * timeout * path.length + bufferTimeout;
+  const waitPath = 32 * path.length + bufferTimeout;
   const waitLoading = waitVisited + waitPath;
 
   setLoading(true);
@@ -169,6 +169,6 @@ export function visualize(
 
   /* Wait for first animation to finish */
   setTimeout(() => {
-    setNodes(path, SquareType.Path, 4 * timeout);
+    setNodes(path, SquareType.Path, 32);
   }, waitVisited);
 }

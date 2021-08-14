@@ -11,6 +11,51 @@ export interface Content {
   pseudocode: string;
 }
 
+const astar: Content = {
+  name: 'A* Search',
+  tags: ['Weighted', 'Guarantees Shortest Path'],
+  source: 'https://en.wikipedia.org/wiki/A*_search_algorithm',
+  description: (
+    <Paragraph>
+      A* is a type of informed search algorithm that considers an additional
+      cost heuristic such as shortest time or least distance travelled. It
+      improves upon Dijkstra&apos;s algorithm by using additional information to
+      reduce the number of visited nodes. In this implementation, the algorithm
+      is aware of the target location and uses this information to additionally
+      weight each square according to its{' '}
+      <Link href="https://en.wikipedia.org/wiki/Taxicab_geometry">
+        manhattan distance
+      </Link>{' '}
+      from the target. Thus, squares that are closer to the target are
+      preferred.
+    </Paragraph>
+  ),
+  pseudocode: `  1  function AStar(Graph, source):
+  2      dist[source] ← 0                           // Initialization
+  3
+  4      create vertex priority queue Q
+  5
+  6      for each vertex v in Graph:
+  7          if v ≠ source
+  8              dist[v] ← INFINITY                 // Unknown distance from source to v
+  9              prev[v] ← UNDEFINED                // Predecessor of v
+  10             m_dist[v] ← manhattan(v, target)   // Heuristic function
+  11
+  12         Q.add_with_priority(v, dist[v] + m_dist[v])
+  13
+  14
+  15     while Q is not empty:                      // The main loop
+  16         u ← Q.extract_min()                    // Remove and return best vertex
+  17         for each neighbor v of u:              // only v that are still in Q
+  18             alt ← dist[u] + length(u, v)
+  19             if alt < dist[v]
+  20                 dist[v] ← alt
+  21                 prev[v] ← u
+  22                 Q.decrease_priority(v, alt + m_dist[v])
+  23
+  24     return dist, prev`,
+};
+
 const dijkstra: Content = {
   name: "Dijkstra's Algorithm",
   tags: ['Weighted', 'Guarantees Shortest Path'],
@@ -26,7 +71,7 @@ const dijkstra: Content = {
       distances. This process continues until the target is reached.
     </Paragraph>
   ),
-  pseudocode: `  1  function Dijkstra(Graph, source):
+  pseudocode: `  1  function AStar(Graph, source):
   2      dist[source] ← 0                           // Initialization
   3
   4      create vertex priority queue Q
@@ -142,6 +187,7 @@ const dfs: Content = {
 };
 
 const descriptions: { [key: string]: Content } = {
+  astar,
   bestfirst,
   bfs,
   dijkstra,

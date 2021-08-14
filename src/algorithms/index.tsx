@@ -5,9 +5,11 @@ import division from './maze/division';
 import dfs from './pathfinder/dfs';
 import bfs from './pathfinder/bfs';
 import bestfirst from './pathfinder/bestfirst';
+import astar from './pathfinder/astar';
 import { PathfindingAlgorithm } from '../types/VisualizerTypes';
 
 export const Pathfinders: { [key: string]: PathfindingAlgorithm } = {
+  astar,
   bestfirst,
   bfs,
   dijkstra,
@@ -15,6 +17,7 @@ export const Pathfinders: { [key: string]: PathfindingAlgorithm } = {
 };
 
 export const PathfinderNames: { [key: string]: string } = {
+  astar: 'A* Search',
   bestfirst: 'Best-first',
   bfs: 'Breadth-first',
   dijkstra: "Dijkstra's",

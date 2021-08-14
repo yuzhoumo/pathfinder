@@ -9,7 +9,7 @@ enum Direction {
 function randInt(min: number, max: number): number {
   const minCeil = Math.ceil(min);
   const maxFloor = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloor - minCeil + 1)) + min;
+  return Math.floor((Math.random() * (maxFloor - minCeil + 1)) / 2) * 2 + min;
 }
 
 function chooseDirection(width: number, height: number): Direction {
@@ -27,14 +27,14 @@ export default function division(grid: Grid): Node[] {
     h: number,
     d: Direction
   ): void => {
-    if (w < 4 || h < 4) return;
+    if (w < 3 || h < 3) return;
     const horiz = d === Direction.HORIZONTAL;
 
-    // Wall start coordinates
-    let wallCol = c + (horiz ? 0 : randInt(2, w - 3));
-    let wallRow = r + (horiz ? randInt(2, h - 3) : 0);
+    // Wall start coordinates (always odd)
+    let wallCol = c + (horiz ? 0 : randInt(1, w - 2));
+    let wallRow = r + (horiz ? randInt(1, h - 2) : 0);
 
-    // Hole coordinates
+    // Hole coordinates (always even)
     const length = horiz ? w : h;
     const holeCol = wallCol + (horiz ? randInt(0, w - 1) : 0);
     const holeRow = wallRow + (horiz ? 0 : randInt(0, h - 1));

@@ -21,13 +21,11 @@ function updateNeighbors(curr: Node, grid: Grid): void {
   });
 }
 
-export default function bestfirst(grid: Grid): [Node[], Node[]] {
+export default function astar(grid: Grid): [Node[], Node[]] {
   const sortNodes = (nodes: Node[]): void => {
     nodes.sort((a, b) => {
       return (
-        a.dist +
-        10 * manhattanDist(a, grid) -
-        (b.dist + 10 * manhattanDist(b, grid))
+        a.dist + manhattanDist(a, grid) - (b.dist + manhattanDist(b, grid))
       );
     });
   };
