@@ -3,6 +3,7 @@ import floodfill from './maze/floodfill';
 import rand from './maze/random';
 import division from './maze/division';
 import prim from './maze/prim';
+import binary from './maze/binary';
 import dfs from './pathfinder/dfs';
 import bfs from './pathfinder/bfs';
 import bestfirst from './pathfinder/bestfirst';
@@ -26,6 +27,7 @@ export const PathfinderNames: { [key: string]: string } = {
 };
 
 export const Mazes = {
+  binary,
   division,
   rand,
   floodfill,

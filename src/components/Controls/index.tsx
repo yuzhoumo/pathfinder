@@ -101,6 +101,13 @@ export default function Controls({
         Recursive Division
       </Menu.Item>
       <Menu.Item
+        key="binary"
+        onClick={() => generateMaze(Mazes.binary, timeout, false)}
+        icon={<BuildOutlined />}
+      >
+        Binary Tree
+      </Menu.Item>
+      <Menu.Item
         key="prim"
         onClick={() => generateMaze(Mazes.prim, timeout, false)}
         icon={<BuildOutlined />}
