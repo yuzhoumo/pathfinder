@@ -1,54 +1,25 @@
-# Pathfinder: Design Document
+# Pathfinder: A pathfinding and maze generation visualizer
 
-A visualizer for various pathfinding algorithms
+This is an interactive visualizer for various pathfinding and maze generation
+algorithms. Click and drag to draw and delete walls, or generate them using one
+of the maze generation algorithms. Run any of the pathfinding algorithms and set
+the desired speed. Check it out here: https://pathfinder.joe-mo.com/
 
-## Components
+## Pathfinding Algorithms
 
-### Node
+- Dijkstra's Algorithm: Finds least-cost path based on distance
+- A\* Search: Finds least-cost path based on manhattan distance from target in
+  addition actual distance of the path so far
+- Breadth-first Search: Searches equally in all directions until target is found
+- Depth-first Search: Searches as far as it can down a path before backtracking
+- Greedy Best-first Search: Greedily visits nodes based solely on Manhattan
+  distance heuristic
 
-**Description:** Represents a square on the grid. This component is for display
-purposes _only_ and should not contain any logic beyond taking in props to
-change its own CSS styles based on its visual type. Mouse interaction function
-side effects are handled higher in the hierarchy (in this case, the grid).
+## Maze Generation Algorithms
 
-**Props:**
-
-- type: `ENUM {'empty', 'source', 'target', 'wall', 'path', 'visited'}`
-- row: `Integer` row index on the grid
-- col: `Integer` column index on the grid
-- onMouseDown: `Function`
-- onMouseUp: `Function`
-- onMouseEnter: `Function`
-
-**Visual Types:**
-
-- empty: default display type
-- source: indicates the starting node
-- target: indicates the destination for the pathfinding algorithm
-- wall: indicates a wall; cannot be crossed by a path
-- path: highlights the chosen path between the source and target nodes
-- visited: indicates a node that has been visited by the pathfinding algorithm
-
-**Color code:**
-
-- empty: white
-- source: green (triangle icon)
-- target: red (target icon)
-- wall: purple
-- path: yellow
-- visited: cyan
-
-### Grid
-
-**Description:** Wrapper for Node components. Displays nodes in a grid.
-
-**Props:**
-
-- nodes: `Node[][]` 2D array of node components
-
-## Containers
-
-### Visualizer
-
-**Description:** Main container for the pathfinding visualizer. Controls the
-rendering of grid nodes and handles user interaction with the grid.
+- Flood Fill: Carves out paths using recursive backtracking via DFS
+- Recursive Division: Adds walls using randomized recursive division
+- Randomized Prim's Algorithm: Carves out path based on randomized spanning tree
+- Binary Tree: Carves out a path along a randomly generated binary tree
+- Basic Random Fill: Fills 30% of the board with walls and guarantees a valid
+  path exists using BFS
