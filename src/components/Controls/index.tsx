@@ -101,6 +101,13 @@ export default function Controls({
         Recursive Division
       </Menu.Item>
       <Menu.Item
+        key="prim"
+        onClick={() => generateMaze(Mazes.prim, timeout, false)}
+        icon={<BuildOutlined />}
+      >
+        Prim&apos;s Algorithm
+      </Menu.Item>
+      <Menu.Item
         key="random-fill"
         onClick={() => generateMaze(Mazes.rand, timeout, true)}
         icon={<BuildOutlined />}
